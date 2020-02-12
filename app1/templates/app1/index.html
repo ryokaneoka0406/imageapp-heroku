@@ -32,13 +32,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for item in obj %}
                 <tr>
-                    <td>{{ item.uploaded_at }}</td>
-                    <td>{{item.description}}</td>
-                    <td><img src="{{ item.photo.url }}" width='100' height='auto' /></td>
+                    <td>{{ obj.uploaded_at }}</td>
+                    <td>{{ obj.description}}</td>
+                    <td><img src="{{ obj.photo.url }}" width='100' height='auto' /></td>
                 </tr>
-                {% endfor %}
             </tbody>
         </table>
     </div>

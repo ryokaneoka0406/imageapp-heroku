@@ -10,8 +10,10 @@ def index(request):
             form.save()
             return redirect('index')
     else:
+        # 最新の画像を出す処理
         form = DocumentForm()
-        obj = Document.objects.all()
+        max_id = Document.objects.latest('id').id
+        obj = Document.objects.get(id=max_id)
 
     return render(request, 'app1/index.html', {
         'form': form,
