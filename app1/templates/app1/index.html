@@ -14,31 +14,18 @@
 
 <body>
     <div class="container">
-        <h2 class="mt-4 border-bottom">モザイクくん</h2>
+        <h2 class="mt-4 border-bottom">白黒くん</h2>
         <h4>写真をアップロードする</h4>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% bootstrap_form form layout='horizontal' %}
-            <button type="submit" class="btn btn-primary mb-4">Upload</button>
+            <button type="submit" class="btn btn-primary mb-4">白黒にする</button>
         </form>
 
         <h4>アップロードした画像</h4>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>uploaded_at</th>
-                    <th>item</th>
-                    <th>image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ obj.uploaded_at }}</td>
-                    <td>{{ obj.description}}</td>
-                    <td><img src="{{ obj.photo.url }}" width='100' height='auto' /></td>
-                </tr>
-            </tbody>
-        </table>
+        <p>{{ obj.uploaded_at }} {{ obj.description}}</p>
+        <img src="{{ obj.processed.url }}" onerror="this.remove()" width='500' height='auto' /></td>
+
     </div>
 
     <script src="{% static 'app1/js/jquery-3.4.1.min.js' %}"></script>
