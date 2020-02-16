@@ -33,14 +33,8 @@
     <div class="container">
         <h3 class="mt-4">3ステップで画像を白黒処理 or 顔モザイク処理できます</h3>
     </div>
-    <div class="container">
-        <h4 class="mt-4">1. 写真をアップロードする（1/3）</h4>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% bootstrap_form form layout='horizontal' %}
-            <button type="submit" class="btn btn-primary mt-4">次へ</button>
-        </form>
-    </div>
+    {% block content %}
+    {% endblock %}
 
     <footer class="footer mt-auto py-3 fixed-bottom">
         <div class="container">

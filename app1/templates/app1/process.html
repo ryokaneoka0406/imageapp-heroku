@@ -1,31 +1,16 @@
-{% load static %}
-{% load bootstrap4 %}
+{% extends 'app1/base.html' %}
 
-<!DOCTYPE html>
-<html lang="ja">
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static 'app1/css/bootstrap.min.css' %}">
-    <title>画像変換くん</title>
-</head>
+<div class="container">
+    <h4 class="mt-4">2. アップロードした画像の確認(2/3)</h4>
+    <img src="{{ obj.photo.url }}" onerror="this.remove()" width='300' height='auto' />
 
-<body>
-    <div class="container">
-        <h2 class="mt-4 border-bottom">画像変換くん</h2>
-        <h4>2.アップロードした画像の確認(2/3)</h4>
-        <img src="{{ obj.photo.url }}" onerror="this.remove()" width='300' height='auto' />
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary mt-4" name="button_process">画像を白黒にする</button>
+        <button type="submit" class="btn btn-primary mt-4" name="button_mosaic">画像に顔モザイクをかける</button>
+    </form>
+</div>
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary mt-4" name="button_process">画像を白黒にする</button>
-        </form>
-    </div>
-
-    <script src="{% static 'app1/js/jquery-3.4.1.min.js' %}"></script>
-    <script src="{% static 'app1/js/bootstrap.bundle.min.js' %}"></script>
-</body>
-
-</html>
+{% endblock %}

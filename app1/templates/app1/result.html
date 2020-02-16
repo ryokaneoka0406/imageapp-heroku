@@ -1,31 +1,16 @@
-{% load static %}
-{% load bootstrap4 %}
+{% extends 'app1/base.html' %}
 
-<!DOCTYPE html>
-<html lang="ja">
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{% static 'app1/css/bootstrap.min.css' %}">
-    <title>処理</title>
-</head>
+<div class="container">
+    <h4 class="mt-4">3. 結果の確認(3/3)</h4>
+    <img src="{{ obj.processed.url }}" onerror="this.remove()" width='300' height='auto' />
+</div>
 
-<body>
-    <div class="container">
-        <h2 class="mt-4 border-bottom">画像変換くん</h2>
-        <h4>3.結果の確認(3/3)</h4>
-        <img src="{{ obj.processed.url }}" onerror="this.remove()" width='300' height='auto' />
-    </div>
+<div class="container">
+    <a href="{{ obj.processed.url }}" download="{{ obj.processed.description }}"
+        class="btn btn-primary mt-4">結果をダウンロードする</a>
+    <a href="/app1/" class="btn btn-secondary mt-4">もう1回</a>
+</div>
 
-    <div class="container">
-        <a href="{{ obj.processed.url }}" download="{{ obj.processed.description }}"
-            class="btn btn-primary mt-4">ダウンロードする</a>
-    </div>
-
-    <script src="{% static 'app1/js/jquery-3.4.1.min.js' %}"></script>
-    <script src="{% static 'app1/js/bootstrap.bundle.min.js' %}"></script>
-</body>
-
-</html>
+{% endblock %}
