@@ -42,6 +42,7 @@ def process(request):
 
 
 def gray(input_path, output_path):
+    # ファイル名が2バイト文字だとエラーが起きる
     img = cv2.imread(input_path)
     im_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     cv2.imwrite(output_path, im_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
