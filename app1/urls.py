@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("process", views.process, name="process"),
+    path("process/<int:id>", views.process, name="process"),
 ]
