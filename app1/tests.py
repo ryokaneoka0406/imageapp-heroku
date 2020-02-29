@@ -1,3 +1,8 @@
+from django.urls import reverse
 from django.test import TestCase
 
-# Create your tests here.
+
+class TestIndex(TestCase):
+    def test_get(self):
+        res = self.client.get(reverse('index'))
+        self.assertTemplateUsed(res, 'app1/index.html')
