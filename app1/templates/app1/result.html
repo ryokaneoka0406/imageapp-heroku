@@ -10,7 +10,7 @@
 <div class="container">
     <a href="{{ obj.processed.url }}" download="{{ obj.processed.description }}"
         class="btn btn-primary mt-4">結果をダウンロードする</a>
-    <a href="/app1/" class="btn btn-secondary mt-4">もう1回</a>
+    <a href="{% url 'index' %}" class="btn btn-secondary mt-4">もう1回</a>
 </div>
 
 {% endblock %}
