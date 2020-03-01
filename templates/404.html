@@ -1,0 +1,12 @@
+{% extends 'app1/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h4 class="mt-4">エラー</h4>
+    <p>お探しのページが見つかりませんでした。</p>
+    <p>画像処理中にこのエラーが出た場合、画像ファイル名に全角文字が入っていないかご確認ください。</p>
+    <a href="{% url 'index' %}" class="btn btn-primary mt-4">トップへ</a>
+</div>
+
+{% endblock %}
