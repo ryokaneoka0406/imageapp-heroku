@@ -25,3 +25,15 @@ class TestGray(TestCase):
 
     def test_error(self):
         pass
+
+
+class TestAbout(TestCase):
+    def test_get(self):
+        res = self.client.get(reverse('about'))
+        self.assertTemplateUsed(res, 'app1/about.html')
+
+
+class TestExample(TestCase):
+    def test_get(self):
+        res = self.client.get(reverse('example'))
+        self.assertTemplateUsed(res, 'app1/example.html')

@@ -79,6 +79,7 @@ def gray(input_path, output_path):
         img = cv2.imread(input_path)
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         cv2.imwrite(output_path, img_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
+
     except Exception:
         raise Http404
 
@@ -103,5 +104,14 @@ def mosaic(input_path, output_path):
             img[y: y + h, x: x +
                 w] = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
         cv2.imwrite(output_path, img)
+
     except Exception:
         raise Http404
+
+
+def about(request):
+    return render(request, 'app1/about.html')
+
+
+def example(request):
+    return render(request, 'app1/example.html')
