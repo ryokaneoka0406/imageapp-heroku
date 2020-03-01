@@ -36,7 +36,7 @@ def index(request):
 def process(request, code):
     """
     アップロードされた画像に対して処理をする関数。
-    grayボタンでgray呼び出し、mosaicボタンでモザイク呼び出し(モザイクはまだ実装していない)
+    grayボタンでgray呼び出し、mosaicボタンでモザイク呼び出し
     """
     try:
         # URL文字列のbyteオブジェクト変換→デコード(base64)→デコード(utf8)
@@ -94,7 +94,7 @@ def mosaic(input_path, output_path):
         face_cascade = cv2.CascadeClassifier(face_cascade_path)
         img = cv2.imread(input_path)
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(img_gray, scaleFactor=1.01)
+        faces = face_cascade.detectMultiScale(img_gray, scaleFactor=1.05)
         ratio = 0.05
         for x, y, w, h in faces:
             small = cv2.resize(img[y: y + h, x: x + w], None,
