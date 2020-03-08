@@ -13,17 +13,12 @@ KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
 
 def index(request):
-    """
-    アップローダ。アップロードした画像のIDを暗号化して処理関数に渡す。
-    """
+    """アップローダ。アップロードした画像のIDを暗号化して処理関数に渡す。"""
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            photo_id = Document.objects.latest('id').id
-            # URLの暗号化
-            idPlusKey = (str(photo_id) + KEY).encode('utf8')
-            code = base64.urlsafe_b64encode(idPlusKey).decode("ascii")
+            code = encodeId(Document.objects.latest('id').id)
             # 処理関数へのリダイレクト
             redirect_url = reverse('process', kwargs={'code': code})
             return redirect(redirect_url)
@@ -39,13 +34,7 @@ def process(request, code):
     grayボタンでgray呼び出し、mosaicボタンでモザイク呼び出し
     """
     try:
-        # URL文字列のbyteオブジェクト変換→デコード(base64)→デコード(utf8)
-        code = code.encode("ascii")
-        tmp = base64.urlsafe_b64decode(code).decode('utf8')
-        # デコードした文字列からidを取り出す
-        id = int(tmp.replace(KEY, "").strip())
-        obj = Document.objects.get(id=id)
-
+        obj = Document.objects.get(id=decodeCryptedId(code))
         if request.method == 'POST':
             # pathの取得
             input_path = BASE_DIR + obj.photo.url
@@ -71,10 +60,25 @@ def process(request, code):
         raise Http404
 
 
+def encodeId(id):
+    """IDの暗号化（URLで生のID入力して画像にアクセスできないようにする）"""
+    idPlusKey = (str(id) + KEY).encode('utf8')
+    code = base64.urlsafe_b64encode(idPlusKey).decode("ascii")
+    return code
+
+
+def decodeCryptedId(code):
+    """暗号化されたIDの複合"""
+    # URL文字列のbyteオブジェクト変換→デコード(base64)→デコード(utf8)
+    code = code.encode("ascii")
+    tmp = base64.urlsafe_b64decode(code).decode('utf8')
+    # デコードした文字列からidを取り出す
+    id = int(tmp.replace(KEY, "").strip())
+    return id
+
+
 def gray(input_path, output_path):
-    """
-    画像を白黒にする処理
-    """
+    """画像を白黒にする処理"""
     try:
         img = cv2.imread(input_path)
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -85,9 +89,7 @@ def gray(input_path, output_path):
 
 
 def mosaic(input_path, output_path):
-    """
-    顔写真を判別し、モザイクをかける処理
-    """
+    """顔写真を判別し、モザイクをかける処理"""
     try:
         # 分類器はStaticに入れる
         face_cascade_path = BASE_DIR + \
