@@ -61,18 +61,22 @@ def process(request, code):
 
 
 def encodeId(id):
-    """IDの暗号化（URLで生のID入力して画像にアクセスできないようにする）"""
+    """
+    IDの暗号化（URLで生のID入力して画像にアクセスできないようにする）
+    IDのキャスト＋KEY結合→エンコード（utf8）→エンコード(base64)→byteの文字列化
+    """
     idPlusKey = (str(id) + KEY).encode('utf8')
     code = base64.urlsafe_b64encode(idPlusKey).decode("ascii")
     return code
 
 
 def decodeCryptedId(code):
-    """暗号化されたIDの複合"""
-    # URL文字列のbyteオブジェクト変換→デコード(base64)→デコード(utf8)
+    """
+    暗号化されたIDの複合
+    URL文字列のbyteオブジェクト変換→デコード(base64)→デコード(utf8)
+    """
     code = code.encode("ascii")
     tmp = base64.urlsafe_b64decode(code).decode('utf8')
-    # デコードした文字列からidを取り出す
     id = int(tmp.replace(KEY, "").strip())
     return id
 
