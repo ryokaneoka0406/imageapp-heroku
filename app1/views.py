@@ -36,7 +36,8 @@ def process(request, code):
     try:
         obj = Document.objects.get(id=decodeCryptedId(code))
         if request.method == 'POST':
-            # pathの取得
+            # pathの取得→URLの処理はすべて画像加工スクリプトに任せる
+            # URLを渡す→パス取得&アップロードが完了した後にアップロード後URLが帰ってくるのでそれをprocessedに保存
             input_path = BASE_DIR + obj.photo.url
             before_filename = os.path.splitext(os.path.basename(input_path))[0]
             after_filename = before_filename + "_processed.jpg"

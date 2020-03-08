@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.test import TestCase
-from app1.views import encodeId, decodeCryptedId
+from app1.views import encodeId, decodeCryptedId, gray, mosaic
 
 
 class TestIndex(TestCase):
@@ -22,7 +22,19 @@ class TestProcess(TestCase):
 
 class TestGray(TestCase):
     def test_grayed(self):
+        test_input_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/test.jpg'
+        test_output_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/processed/test_processed.jpg'
+        self.assertEqual(gray(test_input_pass), test_output_pass)
+
+    def test_error(self):
         pass
+
+
+class TestMosaic(TestCase):
+    def test_mosaiced(self):
+        test_input_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/test.jpg'
+        test_output_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/processed/test_processed.jpg'
+        self.assertEqual(mosaic(test_input_pass), test_output_pass)
 
     def test_error(self):
         pass
