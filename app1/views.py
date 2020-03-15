@@ -1,3 +1,4 @@
+from imageapp.settings import BASE_DIR
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import Http404
@@ -6,10 +7,17 @@ from .models import Document
 import cv2
 import os
 import base64
-from imageapp.settings import BASE_DIR
+from google.cloud import storage
+import tempfile
+import urllib.parse
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
+
+# Google Storage関連の処理
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(
+    BASE_DIR, 'AUTH_KEY.json')
+base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
 
 
 def index(request):
@@ -36,21 +44,18 @@ def process(request, code):
     try:
         obj = Document.objects.get(id=decodeCryptedId(code))
         if request.method == 'POST':
-            # pathの取得→URLの処理はすべて画像加工スクリプトに任せる
             # URLを渡す→パス取得&アップロードが完了した後にアップロード後URLが帰ってくるのでそれをprocessedに保存
-            input_path = BASE_DIR + obj.photo.url
-            before_filename = os.path.splitext(os.path.basename(input_path))[0]
-            after_filename = before_filename + "_processed.jpg"
-            output_path = BASE_DIR + "/media/processed/" + after_filename
+            # obj.photo.urlのみgray(),mosaic()に渡す
+            input_url = obj.photo.url
 
             # 画像処理。Elifでモザイク追加予定
             if 'button_gray' in request.POST:
-                gray(input_path, output_path)
+                output_pass = gray(input_url)
             elif 'button_mosaic' in request.POST:
-                mosaic(input_path, output_path)
+                output_pass = mosaic(input_url)
 
             # DBに処理済み画像のパスを記録。
-            obj.processed = "/processed/" + after_filename
+            obj.processed = output_pass
             obj.save()
 
             return render(request, 'app1/result.html', {'obj': obj})
@@ -82,38 +87,99 @@ def decodeCryptedId(code):
     return id
 
 
-def gray(input_path, output_path):
-    """画像を白黒にする処理"""
+def gray(input_url):
+    """
+    1.GCS画像をtempdirに保存
+    2.OpenCVでtempdirの画像を加工、tempdirに保存
+    3.2の保存した加工済み画像をアップロード
+    """
     try:
-        img = cv2.imread(input_path)
-        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        cv2.imwrite(output_path, img_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
+        input_url_with_noQ = urllib.parse.urlunparse(
+            urllib.parse.urlparse(input_url)._replace(query=None))
+        input_filename = os.path.basename(input_url_with_noQ)
+        output_filename = os.path.splitext(input_filename)[
+            0] + '_processed.jpg'
+        output_pass = 'processed/' + output_filename
 
-    except Exception:
-        raise Http404
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # GCSの処理対象画像を一時ディレクトリにダウンロード
+            client = storage.Client()
+            bucket = client.get_bucket('imageapp_ryopenguin')
+            blob = bucket.blob('documents/' + input_filename)
+            downloadDir = os.path.join(tmpdir, input_filename)
+            blob.download_to_filename(downloadDir)
+
+            # 画像を置いた一時ディレクトリから読み取り、処理へ
+            img = cv2.imread(downloadDir)
+            img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            cv2.imwrite(os.path.join(tmpdir, output_filename),
+                        img_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
+
+            # 画像のGCSへのアップロード
+            client = storage.Client()
+            bucket = client.get_bucket('imageapp_ryopenguin')
+            blob = bucket.blob('processed/' + output_filename)
+            blob.upload_from_filename(
+                filename=os.path.join(tmpdir, output_filename))
+
+        return output_pass
+
+    except Exception as e:
+        print(e)
 
 
-def mosaic(input_path, output_path):
-    """顔写真を判別し、モザイクをかける処理"""
+def mosaic(input_url):
+    """
+    1.GCS画像をtempdirに保存
+    2.OpenCVでtempdirの画像を加工、tempdirに保存
+    3.2の保存した加工済み画像をアップロード
+    """
     try:
-        # 分類器はStaticに入れる
-        face_cascade_path = BASE_DIR + \
-            '/app1/static/app1/xml/haarcascade_frontalface_default.xml'
-        face_cascade = cv2.CascadeClassifier(face_cascade_path)
-        img = cv2.imread(input_path)
-        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = face_cascade.detectMultiScale(img_gray, scaleFactor=1.05)
-        ratio = 0.05
-        for x, y, w, h in faces:
-            small = cv2.resize(img[y: y + h, x: x + w], None,
-                               fx=ratio, fy=ratio,
-                               interpolation=cv2.INTER_NEAREST)
-            img[y: y + h, x: x +
-                w] = cv2.resize(small, (w, h), interpolation=cv2.INTER_NEAREST)
-        cv2.imwrite(output_path, img)
+        input_url_with_noQ = urllib.parse.urlunparse(
+            urllib.parse.urlparse(input_url)._replace(query=None))
+        input_filename = os.path.basename(input_url_with_noQ)
+        output_filename = os.path.splitext(input_filename)[
+            0] + '_processed.jpg'
+        output_pass = 'processed/' + output_filename
 
-    except Exception:
-        raise Http404
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # GCSの処理対象画像を一時ディレクトリにダウンロード
+            client = storage.Client()
+            bucket = client.get_bucket('imageapp_ryopenguin')
+            blob = bucket.blob('documents/' + input_filename)
+            downloadDir = os.path.join(tmpdir, input_filename)
+            blob.download_to_filename(downloadDir)
+
+            # 画像を置いた一時ディレクトリから読み取り、処理へ
+            img = cv2.imread(downloadDir)
+
+            # 分類器はStaticに入れる
+            face_cascade_path = BASE_DIR + \
+                '/app1/static/app1/xml/haarcascade_frontalface_default.xml'
+            face_cascade = cv2.CascadeClassifier(face_cascade_path)
+            img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(img_gray, scaleFactor=1.05)
+            ratio = 0.05
+            for x, y, w, h in faces:
+                small = cv2.resize(img[y: y + h, x: x + w], None,
+                                   fx=ratio, fy=ratio,
+                                   interpolation=cv2.INTER_NEAREST)
+                img[y: y + h, x: x +
+                    w] = cv2.resize(small, (w, h),
+                                    interpolation=cv2.INTER_NEAREST)
+            cv2.imwrite(os.path.join(tmpdir, output_filename), img)
+
+            # 画像のGCSへのアップロード
+            client = storage.Client()
+            bucket = client.get_bucket('imageapp_ryopenguin')
+            blob = bucket.blob('processed/' + output_filename)
+            blob.upload_from_filename(
+                filename=os.path.join(tmpdir, output_filename))
+
+        return output_pass
+
+    except Exception as e:
+        print(e)
 
 
 def about(request):

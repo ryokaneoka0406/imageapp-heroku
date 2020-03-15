@@ -22,9 +22,9 @@ class TestProcess(TestCase):
 
 class TestGray(TestCase):
     def test_grayed(self):
-        test_input_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/test.jpg'
-        test_output_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/processed/test_processed.jpg'
-        self.assertEqual(gray(test_input_pass), test_output_pass)
+        test_input_url = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/test.jpg?Expires=1584349899&GoogleAccessId=imageapp%40ryopenguin-9f2e7.iam.gserviceaccount.com&Signature=JJ2Ki1fXatVhEn7kOy5ZGFJenKoonfJ8NJS08y%2BlxnxVhNA80ndu42ZGgSNkthqMKqZqp5UjQcSOsbxApIEpxSQbOirEGmTNskeO2WmRg9Cm4KD%2BhzKHm7YNvMFS1TJOAXFUwgZXwUsOatleVOx7FAe5caPAFnvT6qUN0B6unGXZG%2F%2BtiRBfzO182Sf41aTqj5A6h24S%2FIvt5dKbfecnvspmpLY2hVwDvyLjOtDUVDFOuVmtb8eqr3eul8RNOMI4iFm9q23SiK8mLoYHNbrDKvk8SMHwgbVxgCSGw%2F7hsMPljSzST8LrwexH%2FB6mnCeRkavEKJJUUnB5QASSkKLPAw%3D%3D'
+        test_output_pass = 'processed/test_processed.jpg'
+        self.assertEqual(gray(test_input_url), test_output_pass)
 
     def test_error(self):
         pass
@@ -32,9 +32,9 @@ class TestGray(TestCase):
 
 class TestMosaic(TestCase):
     def test_mosaiced(self):
-        test_input_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/test.jpg'
-        test_output_pass = 'https://storage.googleapis.com/imageapp_ryopenguin/processed/test_processed.jpg'
-        self.assertEqual(mosaic(test_input_pass), test_output_pass)
+        test_input_url = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/test.jpg?Expires=1584349899&GoogleAccessId=imageapp%40ryopenguin-9f2e7.iam.gserviceaccount.com&Signature=JJ2Ki1fXatVhEn7kOy5ZGFJenKoonfJ8NJS08y%2BlxnxVhNA80ndu42ZGgSNkthqMKqZqp5UjQcSOsbxApIEpxSQbOirEGmTNskeO2WmRg9Cm4KD%2BhzKHm7YNvMFS1TJOAXFUwgZXwUsOatleVOx7FAe5caPAFnvT6qUN0B6unGXZG%2F%2BtiRBfzO182Sf41aTqj5A6h24S%2FIvt5dKbfecnvspmpLY2hVwDvyLjOtDUVDFOuVmtb8eqr3eul8RNOMI4iFm9q23SiK8mLoYHNbrDKvk8SMHwgbVxgCSGw%2F7hsMPljSzST8LrwexH%2FB6mnCeRkavEKJJUUnB5QASSkKLPAw%3D%3D'
+        test_output_pass = 'processed/test_processed.jpg'
+        self.assertEqual(mosaic(test_input_url), test_output_pass)
 
     def test_error(self):
         pass
