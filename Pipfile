@@ -12,7 +12,6 @@ django = "*"
 pillow = "*"
 django-bootstrap4 = "*"
 opencv-python = "*"
-psycopg2-binary = "*"
 django-storages = {extras = ["google"],version = "*"}
 google = "*"
 gunicorn = "*"
