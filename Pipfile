@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+autopep8 = "*"
+flake8 = "*"
+
+[packages]
+django = "*"
+pillow = "*"
+django-bootstrap4 = "*"
+opencv-python = "*"
+psycopg2-binary = "*"
+django-storages = {extras = ["google"],version = "*"}
+google = "*"
+gunicorn = "*"
+
+[requires]
+python_version = "3.8"
