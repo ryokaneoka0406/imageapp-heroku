@@ -126,7 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # GCS導入
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
@@ -136,7 +136,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
 GS_BUCKET_NAME = 'imageapp_ryopenguin'
 
-
+# 本当はこれも秘匿したい
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, 'AUTH_KEY.json'),
 )
