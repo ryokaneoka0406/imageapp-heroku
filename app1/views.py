@@ -14,10 +14,10 @@ import urllib.parse
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
-# Google Storage関連の処理
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(
-    BASE_DIR, 'AUTH_KEY.json')
-base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
+# # Google Storage関連の処理
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(
+#     BASE_DIR, 'AUTH_KEY.json')
+# base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
 
 
 def index(request):
