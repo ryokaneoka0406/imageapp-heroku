@@ -3,4 +3,4 @@ db.sqlite3
 .DS_Store
 local_settings.py
 # これもherokuのconfigに加えたい
-AUTH_KEY.json
+# AUTH_KEY.json
