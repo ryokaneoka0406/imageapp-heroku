@@ -135,9 +135,10 @@ DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'imageapp_ryopenguin'
 
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'AUTH_KEY.json'),
-)
+GS_CREDENTIALS = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+# service_account.Credentials.from_service_account_file(
+#     os.path.join(BASE_DIR, 'AUTH_KEY.json'),
+# )
 
 try:
     from .local_settings import *
