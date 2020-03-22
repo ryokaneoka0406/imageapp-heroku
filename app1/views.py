@@ -153,9 +153,9 @@ def mosaic(input_url):
             # 画像を置いた一時ディレクトリから読み取り、処理へ
             img = cv2.imread(downloadDir)
 
-            # 分類器はStaticに入れる。Staticのパスハードコーディングしているから要改善
+            # 分類器はStaticに入れる
             face_cascade_path = BASE_DIR + \
-                '/static/app1/xml/haarcascade_frontalface_default.xml'
+                '/app1/static/app1/xml/haarcascade_frontalface_default.xml'
             face_cascade = cv2.CascadeClassifier(face_cascade_path)
             img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(img_gray, scaleFactor=1.05)

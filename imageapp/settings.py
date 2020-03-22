@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -49,7 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'imageapp.urls'
@@ -72,20 +71,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'imageapp.wsgi.application'
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 # Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'name',
-        'USER': 'user',
-        'PASSWORD': '',
-        'HOST': 'host',
-        'PORT': '',
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'name',
+            'USER': 'user',
+            'PASSWORD': '',
+            'HOST': 'host',
+            'PORT': '',
+        }
     }
-}
+
+    import django_heroku
+    django_heroku.settings(locals())
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
@@ -122,31 +130,15 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# GCS導入
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-# STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
-GS_BUCKET_NAME = 'imageapp_ryopenguin'
-
-# 本当はこれも秘匿したい
+# Google Cloud Storageの設定
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, 'AUTH_KEY.json'),
 )
 
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     pass
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
-if not DEBUG:
-    SECRET_KEY = os.environ['SECRET_KEY']
-    import django_heroku
-    django_heroku.settings(locals())
+GS_BUCKET_NAME = 'imageapp_ryopenguin'
+GS_PROJECT_ID = 'ryopenguin-9f2e7'
+STATIC_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/app1/'
+MEDIA_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/'
