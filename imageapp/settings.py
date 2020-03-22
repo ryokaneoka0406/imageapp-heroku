@@ -136,6 +136,7 @@ GS_BUCKET_NAME = 'imageapp_ryopenguin'
 
 
 GS_CREDENTIALS = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+# 環境変数の仕様これでいいのか、、
 # service_account.Credentials.from_service_account_file(
 #     os.path.join(BASE_DIR, 'AUTH_KEY.json'),
 # )
