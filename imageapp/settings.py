@@ -132,8 +132,8 @@ USE_L10N = True
 USE_TZ = True
 
 # Google Cloud Storageの設定
-secret = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(secret)
+# secret = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(secret)
 
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
