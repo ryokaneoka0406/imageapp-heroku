@@ -131,7 +131,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Google Cloud Storageの設定
+# Google Cloud Storageの設定。herokuはKEYファイルがおけない
 # secret = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
 # GS_CREDENTIALS = service_account.Credentials.from_service_account_file(secret)
 
