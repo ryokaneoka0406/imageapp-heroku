@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 from google.oauth2 import service_account
 import os
 import dj_database_url
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,9 +132,9 @@ USE_L10N = True
 USE_TZ = True
 
 # Google Cloud Storageの設定。herokuはKEYファイルがおけない
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-    )
+KEY = json.load(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(KEY)
 
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
