@@ -53,7 +53,7 @@ def process(request, code):
                 output_pass = mosaic(input_url)
 
             # DBに処理済み画像のパスを記録。
-            obj.processed = output_pass
+            obj.processed = base_url + output_pass
             obj.save()
 
             return render(request, 'app1/result.html', {'obj': obj})
