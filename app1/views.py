@@ -14,7 +14,7 @@ import urllib.parse
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
-# # Google Storage関連の処理
+# Google Storage関連の処理
 base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
 
 
