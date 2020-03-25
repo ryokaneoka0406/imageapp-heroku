@@ -46,14 +46,13 @@ def process(request, code):
             # obj.photo.urlのみgray(),mosaic()に渡す
             input_url = obj.photo.url
 
-            # 画像処理。Elifでモザイク追加予定
             if 'button_gray' in request.POST:
                 output_pass = gray(input_url)
             elif 'button_mosaic' in request.POST:
                 output_pass = mosaic(input_url)
 
             # DBに処理済み画像のパスを記録。
-            obj.processed = base_url + output_pass
+            obj.processed = output_pass
             obj.save()
 
             return render(request, 'app1/result.html', {'obj': obj})

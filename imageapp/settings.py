@@ -130,6 +130,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+GS_BUCKET_NAME = 'imageapp_ryopenguin'
+GS_PROJECT_ID = 'ryopenguin-9f2e7'
+STATIC_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/app1/'
+MEDIA_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/'
+
 # Google Cloud Storageの設定。herokuはKEYファイルがおけない
 if not DEBUG:
     KEY = {
@@ -145,11 +153,3 @@ if not DEBUG:
         "client_x509_cert_url": os.environ["auth_provider_x509_cert_url"]
         }
     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(KEY)
-
-STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-
-GS_BUCKET_NAME = 'imageapp_ryopenguin'
-GS_PROJECT_ID = 'ryopenguin-9f2e7'
-STATIC_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/app1/'
-MEDIA_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/'
