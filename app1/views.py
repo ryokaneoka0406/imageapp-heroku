@@ -96,7 +96,7 @@ def gray(input_url):
         input_filename = os.path.basename(input_url_with_noQ)
         output_filename = os.path.splitext(input_filename)[
             0] + '_processed.jpg'
-        output_pass = base_url + 'processed/' + output_filename
+        output_pass = 'processed/' + output_filename
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # GCSの処理対象画像を一時ディレクトリにダウンロード
