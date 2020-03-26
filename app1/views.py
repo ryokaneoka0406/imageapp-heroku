@@ -12,7 +12,7 @@ import tempfile
 import urllib.parse
 
 # GCSの権限が失われている可能性あり。
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_APPLICATION_CREDENTIALS
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_APPLICATION_CREDENTIALS
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
