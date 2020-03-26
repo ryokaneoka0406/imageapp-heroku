@@ -11,12 +11,13 @@ from google.cloud import storage
 import tempfile
 import urllib.parse
 
-# 通ってくれ、、
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.environ[
-    'GOOGLE_CLOUD_KEYFILE_JSON']
-
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
+
+# GCSの認証
+client = storage.Client.from_service_account_json(
+    os.environ['GOOGLE_CLOUD_KEYFILE_JSON']
+)
 
 # Google Storage関連の処理
 base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
@@ -104,7 +105,7 @@ def gray(input_url):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # GCSの処理対象画像を一時ディレクトリにダウンロード
-            client = storage.Client()
+            # client = storage.Client()
             bucket = client.get_bucket('imageapp_ryopenguin')
             blob = bucket.blob('documents/' + input_filename)
             downloadDir = os.path.join(tmpdir, input_filename)
@@ -117,7 +118,7 @@ def gray(input_url):
                         img_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
 
             # 画像のGCSへのアップロード
-            client = storage.Client()
+            # client = storage.Client()
             bucket = client.get_bucket('imageapp_ryopenguin')
             blob = bucket.blob('processed/' + output_filename)
             blob.upload_from_filename(
@@ -145,7 +146,7 @@ def mosaic(input_url):
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # GCSの処理対象画像を一時ディレクトリにダウンロード
-            client = storage.Client()
+            #client = storage.Client()
             bucket = client.get_bucket('imageapp_ryopenguin')
             blob = bucket.blob('documents/' + input_filename)
             downloadDir = os.path.join(tmpdir, input_filename)
@@ -171,7 +172,7 @@ def mosaic(input_url):
             cv2.imwrite(os.path.join(tmpdir, output_filename), img)
 
             # 画像のGCSへのアップロード
-            client = storage.Client()
+            #client = storage.Client()
             bucket = client.get_bucket('imageapp_ryopenguin')
             blob = bucket.blob('processed/' + output_filename)
             blob.upload_from_filename(
