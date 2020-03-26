@@ -96,6 +96,7 @@ def gray(input_url):
         input_filename = os.path.basename(input_url_with_noQ)
         output_filename = os.path.splitext(input_filename)[
             0] + '_processed.jpg'
+        # BASE_DIRと/mediaを追加
         output_pass = BASE_DIR + "/media/processed/" + output_filename
 
         with tempfile.TemporaryDirectory() as tmpdir:
