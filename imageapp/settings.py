@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-from google.oauth2 import service_account
 import os
 import dj_database_url
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -130,6 +130,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Google Cloud Storageの設定。herokuはKEYファイルがおけない
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 
@@ -138,7 +139,6 @@ GS_PROJECT_ID = 'ryopenguin-9f2e7'
 STATIC_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/app1/'
 MEDIA_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/'
 
-# Google Cloud Storageの設定。herokuはKEYファイルがおけない
 if not DEBUG:
     GOOGLE_APPLICATION_CREDENTIALS = {
         "type": os.environ["type"],
