@@ -8,7 +8,6 @@ import cv2
 import os
 import base64
 from google.cloud import storage
-# from google.oauth2 import service_account
 import tempfile
 import urllib.parse
 
