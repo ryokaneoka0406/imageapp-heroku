@@ -12,6 +12,8 @@ import tempfile
 import urllib.parse
 
 # 通ってくれ、、
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.environ[
+    'GOOGLE_CLOUD_KEYFILE_JSON']
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
