@@ -140,7 +140,7 @@ MEDIA_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/'
 
 # Google Cloud Storageの設定。herokuはKEYファイルがおけない
 if not DEBUG:
-    KEY = {
+    GOOGLE_APPLICATION_CREDENTIALS = {
         "type": os.environ["type"],
         "project_id": os.environ["project_id"],
         "private_key_id": os.environ["private_key_id"],
@@ -152,4 +152,5 @@ if not DEBUG:
         "auth_provider_x509_cert_url": os.environ["auth_provider_x509_cert_url"],
         "client_x509_cert_url": os.environ["auth_provider_x509_cert_url"]
         }
-    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(KEY)
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        GOOGLE_APPLICATION_CREDENTIALS)

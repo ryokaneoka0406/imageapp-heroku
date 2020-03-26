@@ -1,4 +1,4 @@
-from imageapp.settings import BASE_DIR
+from imageapp.settings import BASE_DIR, GOOGLE_APPLICATION_CREDENTIALS
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import Http404
@@ -10,6 +10,9 @@ import base64
 from google.cloud import storage
 import tempfile
 import urllib.parse
+
+# GCSの権限が失われている可能性あり。
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_APPLICATION_CREDENTIALS
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
@@ -96,8 +99,7 @@ def gray(input_url):
         input_filename = os.path.basename(input_url_with_noQ)
         output_filename = os.path.splitext(input_filename)[
             0] + '_processed.jpg'
-        # BASE_DIRと/mediaを追加
-        output_pass = BASE_DIR + "/processed/" + output_filename
+        output_pass = "/processed/" + output_filename
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # GCSの処理対象画像を一時ディレクトリにダウンロード
