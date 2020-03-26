@@ -12,9 +12,6 @@ from google.cloud import storage
 import tempfile
 import urllib.parse
 
-# GCSの権限が失われている可能性あり。
-# GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-#         GOOGLE_APPLICATION_CREDENTIALS)
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
