@@ -1,4 +1,4 @@
-from imageapp.settings import BASE_DIR, GOOGLE_APPLICATION_CREDENTIALS
+from imageapp.settings import BASE_DIR
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import Http404
@@ -8,13 +8,13 @@ import cv2
 import os
 import base64
 from google.cloud import storage
-from google.oauth2 import service_account
+# from google.oauth2 import service_account
 import tempfile
 import urllib.parse
 
 # GCSの権限が失われている可能性あり。
-GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-        GOOGLE_APPLICATION_CREDENTIALS)
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+#         GOOGLE_APPLICATION_CREDENTIALS)
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
