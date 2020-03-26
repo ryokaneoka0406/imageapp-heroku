@@ -1,4 +1,4 @@
-from imageapp.settings import BASE_DIR
+from imageapp.settings import BASE_DIR, GOOGLE_APPLICATION_CREDENTIALS
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import Http404
@@ -10,13 +10,15 @@ import base64
 from google.cloud import storage
 import tempfile
 import urllib.parse
+import json
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
 # GCSの認証
+gcs_key = json.dumps(GOOGLE_APPLICATION_CREDENTIALS)
 client = storage.Client.from_service_account_json(
-    os.environ['GOOGLE_CLOUD_KEYFILE_JSON']
+    gcs_key
 )
 
 # Google Storage関連の処理
