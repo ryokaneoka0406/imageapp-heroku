@@ -11,6 +11,7 @@ from google.cloud import storage
 import tempfile
 import urllib.parse
 
+# 通ってくれ、、
 
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
