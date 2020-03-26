@@ -97,7 +97,7 @@ def gray(input_url):
         output_filename = os.path.splitext(input_filename)[
             0] + '_processed.jpg'
         # BASE_DIRと/mediaを追加
-        output_pass = BASE_DIR + "/media/processed/" + output_filename
+        output_pass = BASE_DIR + "/processed/" + output_filename
 
         with tempfile.TemporaryDirectory() as tmpdir:
             # GCSの処理対象画像を一時ディレクトリにダウンロード
@@ -108,10 +108,10 @@ def gray(input_url):
             blob.download_to_filename(downloadDir)
 
             # 画像を置いた一時ディレクトリから読み取り、処理へ
-            # img = cv2.imread(downloadDir)
-            # img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            # cv2.imwrite(os.path.join(tmpdir, output_filename),
-            #             img_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
+            img = cv2.imread(downloadDir)
+            img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            cv2.imwrite(os.path.join(tmpdir, output_filename),
+                        img_gray, [cv2.IMWRITE_JPEG_QUALITY, 100])
 
             # 画像のGCSへのアップロード
             client = storage.Client()
