@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import dj_database_url
-import tempfile
 from google.oauth2 import service_account
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -141,24 +140,17 @@ STATIC_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/app1/'
 MEDIA_URL = 'https://storage.googleapis.com/imageapp_ryopenguin/documents/'
 
 if not DEBUG:
-    # GOOGLE_APPLICATION_CREDENTIALS = {
-    #     "type": os.environ["type"],
-    #     "project_id": os.environ["project_id"],
-    #     "private_key_id": os.environ["private_key_id"],
-    #     "private_key": os.environ["private_key"],
-    #     "client_email": os.environ["client_email"],
-    #     "client_id": os.environ["client_id"],
-    #     "auth_uri": os.environ["auth_uri"],
-    #     "token_uri": os.environ["token_uri"],
-    #     "auth_provider_x509_cert_url": os.environ["auth_provider_x509_cert_url"],
-    #     "client_x509_cert_url": os.environ["auth_provider_x509_cert_url"]
-    #     }
-    with tempfile.TemporaryDirectory() as tmpdir:
-        filename = "AUTH_KEY.json"
-        auth_key = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-        auth_path = os.path.join(tmpdir, filename)
-        with open(auth_path, 'w') as fp:
-            fp.write(auth_key)
-            GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-                auth_path
-            )
+    GOOGLE_APPLICATION_CREDENTIALS = {
+        "type": os.environ["type"],
+        "project_id": os.environ["project_id"],
+        "private_key_id": os.environ["private_key_id"],
+        "private_key": os.environ["private_key"],
+        "client_email": os.environ["client_email"],
+        "client_id": os.environ["client_id"],
+        "auth_uri": os.environ["auth_uri"],
+        "token_uri": os.environ["token_uri"],
+        "auth_provider_x509_cert_url": os.environ["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": os.environ["auth_provider_x509_cert_url"]
+        }
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        GOOGLE_APPLICATION_CREDENTIALS)
