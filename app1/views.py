@@ -14,7 +14,7 @@ import urllib.parse
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
-# GCSの認証:storageクライアントに
+# GCSの認証:storageクライアントにします
 client = storage.Client()
 bucket = client.get_bucket('imageapp_ryopenguin')
 
