@@ -2,12 +2,16 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container mb-5">
     <h4 class="mt-4">Example</h4>
-</div>
 
-<div class="container">
-    <p>Django</p>
+    <p>before</p>
+    <img src="app1/static/app1/img/example.jpg" onerror="this.remove()" class="img-fluid"/>
+    <p>after(白黒)</p>
+    <img src="app1/static/app1/img/example_gray.jpg" onerror="this.remove()" class="img-fluid"/>
+    <p>after(モザイク)</p>
+    <img src="app1/static/app1/img/example_mosaic.jpg" onerror="this.remove()" class="img-fluid"/>
+
 </div>
 
 {% endblock %}

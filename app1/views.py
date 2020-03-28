@@ -1,4 +1,4 @@
-from imageapp.settings import BASE_DIR
+from imageapp.settings import BASE_DIR, DEBUG
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import Http404
@@ -14,17 +14,23 @@ import urllib.parse
 # 好きなキーに変えてね！
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
-# GCSの認証:storageクライアントにします
-with tempfile.TemporaryDirectory() as tmpdir:
-    filename = "AUTH_KEY.json"
-    auth_key = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-    auth_path = os.path.join(tmpdir, filename)
-    with open(auth_path, 'w') as fp:
-        fp.write(auth_key)
-    client = storage.Client.from_service_account_json(auth_path)
-    bucket = client.get_bucket('imageapp_ryopenguin')
+if not DEBUG:
+    # GCSの認証:storageクライアントにします
+    with tempfile.TemporaryDirectory() as tmpdir:
+        filename = "AUTH_KEY.json"
+        auth_key = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+        auth_path = os.path.join(tmpdir, filename)
+        with open(auth_path, 'w') as fp:
+            fp.write(auth_key)
+        client = storage.Client.from_service_account_json(auth_path)   
+else:
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(
+        BASE_DIR, 'AUTH_KEY.json'
+    )
+    client = storage.Client()
 
 # Google Storage関連の処理
+bucket = client.get_bucket('imageapp_ryopenguin')
 base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
 
 
