@@ -15,9 +15,14 @@ import urllib.parse
 KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
 # GCSの認証:storageクライアントにします
-auth_key = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-client = storage.Client.from_service_account_json(auth_key)
-bucket = client.get_bucket('imageapp_ryopenguin')
+with tempfile.TemporaryDirectory() as tmpdir:
+    filename = "AUTH_KEY.json"
+    auth_key = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+    auth_path = os.path.join(tmpdir, filename)
+    with open(auth_path, 'w') as fp:
+        fp.write(auth_key)
+    client = storage.Client.from_service_account_json(auth_path)
+    bucket = client.get_bucket('imageapp_ryopenguin')
 
 # Google Storage関連の処理
 base_url = 'https://storage.googleapis.com/imageapp_ryopenguin/'
