@@ -12,7 +12,7 @@
     <title>画像加工くん</title>
 </head>
 
-<body>
+<body class="d-flex flex-column" style="min-height: 100vh">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container-fluid">
             <ul class="navbar-nav">
@@ -30,12 +30,19 @@
         </div>
     </nav>
 
+    <main class="mb-auto">
+        <div class="container">
+            <h3 class="mt-4">3ステップで画像を白黒処理 or 顔モザイク処理できます</h3>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-    <div class="container">
-        <h3 class="mt-4">3ステップで画像を白黒処理 or 顔モザイク処理できます</h3>
-    </div>
-    {% block content %}
-    {% endblock %}
+    <footer class="footer">
+        <div class="container">
+          <p class="text-muted">ryopenguin © All Rights Reserved</p>
+        </div>
+    </footer>
 
     <script src="{% static 'app1/js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'app1/js/bootstrap.bundle.min.js' %}"></script>
