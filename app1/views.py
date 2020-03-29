@@ -25,7 +25,7 @@ if not DEBUG:
         with open(auth_path, 'w') as fp:
             fp.write(auth_key)
         client = storage.Client.from_service_account_json(auth_path)
-    KEY = os.environ['URL_KEY']
+    KEY = os.environ.get('URL_KEY')
 else:
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(
         BASE_DIR, 'AUTH_KEY.json'
