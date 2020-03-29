@@ -1,4 +1,5 @@
 {% extends 'app1/base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -6,13 +7,11 @@
     <h4 class="mt-4">Example</h4>
 
     <p>before</p>
-    <img src="https://storage.googleapis.com/imageapp_ryopenguin/app1/img/example.jpg
-    " onerror="this.remove()" class="img-fluid mb-3"/>
+    <img src="{% static 'app1/img/example.jpg' %}" onerror="this.remove()" class="img-fluid mb-3"/>
     <p>after(白黒)</p>
-    <img src="https://storage.googleapis.com/imageapp_ryopenguin/app1/img/example_gray.jpg" onerror="this.remove()" class="img-fluid mb-3"/>
+    <img src="{% static 'app1/img/example_gray.jpg' %}" onerror="this.remove()" class="img-fluid mb-3"/>
     <p>after(モザイク)</p>
-    <img src="https://storage.googleapis.com/imageapp_ryopenguin/app1/img/example_mosaic.jpg
-    " onerror="this.remove()" class="img-fluid mb-3"/>
+    <img src="{% static 'app1/img/example_mosaic.jpg' %}" onerror="this.remove()" class="img-fluid mb-3"/>
 
 </div>
 
