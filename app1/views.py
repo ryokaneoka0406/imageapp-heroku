@@ -10,9 +10,11 @@ import base64
 from google.cloud import storage
 import tempfile
 import urllib.parse
+try:
+    from imageapp.local_settings import URL_KEY
+except ImportError:
+    pass
 
-# 好きなキーに変えてね！
-KEY = '7f5dae0f5b772adbe9b212fd07a6bd3a'
 
 if not DEBUG:
     # GCSの認証:storageクライアントにします
@@ -22,12 +24,14 @@ if not DEBUG:
         auth_path = os.path.join(tmpdir, filename)
         with open(auth_path, 'w') as fp:
             fp.write(auth_key)
-        client = storage.Client.from_service_account_json(auth_path)   
+        client = storage.Client.from_service_account_json(auth_path)
+    KEY = os.environ['url_key']
 else:
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(
-        BASE_DIR, 'AUTH_KEY.json'
+        BASE_DCIR, 'AUTH_KEY.json'
     )
     client = storage.Client()
+    KEY = URL_KEY
 
 # Google Storage関連の処理
 bucket = client.get_bucket('imageapp_ryopenguin')
