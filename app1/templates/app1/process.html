@@ -4,13 +4,16 @@
 
 <div class="container mb-5">
     <h4 class="mt-4">（2/3）アップロードした画像の確認</h4>
-    <img src="{{ obj.photo.url }}" onerror="this.remove()" class="img-fluid"/>
-
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary mt-4" name="button_gray">画像を白黒にする</button>
-        <button type="submit" class="btn btn-primary mt-4" name="button_mosaic">画像に顔モザイクをかける</button>
-    </form>
+    <div class="container">
+        <img src="{{ obj.photo.url }}" onerror="this.remove()" class="img-fluid"/>
+    </div>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary mt-2 mb-2" name="button_gray">画像を白黒にする</button>
+            <button type="submit" class="btn btn-primary mt-2 mb-2" name="button_mosaic">画像に顔モザイクをかける</button>
+        </form>
+    </div>
 </div>
 
 {% endblock %}

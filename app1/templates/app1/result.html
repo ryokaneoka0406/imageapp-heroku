@@ -4,11 +4,14 @@
 
 <div class="container mb-5">
     <h4 class="mt-4">（3/3）結果の確認</h4>
-    <img src="{{ obj.processed.url }}" onerror="this.remove()" class="img-fluid"/>
-
-    <a href="{{ obj.processed.url }}" download="{{ obj.processed.description }}"
-        class="btn btn-primary mt-4">結果をダウンロードする</a>
-    <a href="{% url 'index' %}" class="btn btn-secondary mt-4">もう1回</a>
+    <div class="container">
+        <img src="{{ obj.processed.url }}" onerror="this.remove()" class="img-fluid"/>
+    </div>
+    <div class="container">
+        <a href="{{ obj.processed.url }}" download="{{ obj.processed.description }}"
+            class="btn btn-primary mt-2 mb-2">結果をダウンロードする</a>
+        <a href="{% url 'index' %}" class="btn btn-secondary mt-2 mb-2">もう1回</a>
+    </div>
 </div>
 
 {% endblock %}
