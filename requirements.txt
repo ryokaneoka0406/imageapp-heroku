@@ -19,7 +19,7 @@ google==2.0.3
 googleapis-common-protos==1.51.0
 gunicorn==20.0.4
 idna==2.9
-numpy==1.18.2
+numpy==1.22.0
 opencv-python==4.2.0.32
 pillow==7.0.0
 protobuf==3.11.3
